@@ -1,0 +1,5 @@
+/.idea/
+/build/*
+/dist/*
+/external_cores/
+/cores/*
