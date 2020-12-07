@@ -16,8 +16,8 @@
       "@sound/*": [
         "./build/emulator/*"
       ],
-      "@test/*": [
-        "./src/test/*"
+      "@entrancelogger/*": [
+        "./src/entrancelogger/*"
       ]
     }
   },

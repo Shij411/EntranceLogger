@@ -9,5 +9,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "modloader64_deps": {}
+  "modloader64_deps": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shijuuichi/EntranceLogger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Shijuuichi/EntranceLogger/issues"
+  },
+  "homepage": "https://github.com/Shijuuichi/EntranceLogger#readme"
 }
