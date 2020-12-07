@@ -3,7 +3,6 @@ import { bus, EventHandler, EventsClient } from 'modloader64_api/EventHandler';
 import { Init, onCreateResources, onTick, onViUpdate, Postinit, Preinit } from "modloader64_api/PluginLifecycle";
 import {IOOTCore, OotEvents} from 'modloader64_api/OOT/OOTAPI';
 import {InjectCore} from 'modloader64_api/CoreInjection';
-import { IModLoaderAPI } from 'modloader64_api/IModLoaderAPI';
 
 class entrancelogger implements IPlugin{
 
@@ -11,8 +10,6 @@ class entrancelogger implements IPlugin{
     pluginName?: string | undefined;
     @InjectCore()
     core!: IOOTCore;
-    entranceNumber: number = -1;
-    entrance: number = this.emulator.rdramReadPtr16(global.ModLoader.global_context_pointer, 0x11E1A);
 
     preinit(): void {
     }
@@ -21,12 +18,16 @@ class entrancelogger implements IPlugin{
     postinit(): void {
     }
     onTick(frame?: number | undefined): void {
-        if (this.core.helper.isLinkEnteringLoadingZone() && this.entranceNumber != this.core.global.lastOrCurrentEntrance){
-            this.ModLoader.logger.info('moving to: ' + this.core.global.lastOrCurrentEntrance + '.');
-            this.ModLoader.logger.info('moving to: ' + this.entrance + '.');
-            this.entranceNumber = this.core.global.lastOrCurrentEntrance;
-        }
     }
+
+    @EventHandler(OotEvents.ON_LOADING_ZONE)
+    onLoadingZone(evt: any) {
+        // 0x11a5d0 = going into loadingzone, in ram as 32 bit location
+        // 0x11f248 = global_context_pointer, in ram as 16 bit pointer
+        // 0x11E1A = last known loadingzone, given as offset
+        this.ModLoader.logger.info('moving from: ' + this.ModLoader.emulator.rdramRead32(0x11a5d0) + ' to: ' + this.ModLoader.emulator.rdramReadPtr16(0x11f248, 0x11E1A) + '.');
+    }
+
 
 }
 
